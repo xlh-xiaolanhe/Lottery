@@ -39,6 +39,7 @@ public abstract class AbstractDrawBase extends DrawStrategyHelper implements IDr
 
         // 4、执行抽奖算法
         String awards = drawAlgorithm(request.getStrategyId(), drawAlgorithmMap.get(strategy.getStrategyMode()), excludeAwardIds);
+        logger.info("抽奖完毕， awards:{}", awards);
 
         return buildDrawResult(request.getUid(), request.getStrategyId(), awards);
     }
@@ -104,7 +105,7 @@ public abstract class AbstractDrawBase extends DrawStrategyHelper implements IDr
             return new DrawResponse(uid, strategyId, Constants.DrawResultEnum.NO_PRIZE.getCode());
         }
         Award award = queryAwardInfo(awardId);
-        AwardInfo awardInfo = new AwardInfo(award.getAwardId(), award.getAwardName());
+        AwardInfo awardInfo = new AwardInfo(award.getAwardId(), award.getAwardType(), award.getAwardName(), award.getAwardContent());
         logger.info("执行策略抽奖完成【中奖】，用户：{} 策略ID：{} 奖品ID：{} 奖品名称：{}", uid, strategyId, awardId, award.getAwardName());
         return new DrawResponse(uid, strategyId, Constants.DrawResultEnum.SUCCESS.getCode(), awardInfo);
     }

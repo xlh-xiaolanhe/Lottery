@@ -16,14 +16,14 @@ public class SingleRateRandomDrawAlgorithm extends EntiretyRateRandomDrawAlgorit
     @Override
     public String randomDraw(Long strategyId, List<String> excludeAwardIds) {
         String[] rateTuple = rateTupleMap.get(strategyId);
-        if(StringUtils.isEmpty(rateTuple)) return "";
+        if(StringUtils.isEmpty(rateTuple)) return null;
 
         //随机获取索引
         int index = new SecureRandom().nextInt(100) + 1;
         int pos = super.hashIdx(index);
 
         String awardId = rateTuple[pos];
-        if(excludeAwardIds.contains(awardId)) return "未中奖";
+        if(excludeAwardIds.contains(awardId)) return null;
 
         return awardId;
     }
