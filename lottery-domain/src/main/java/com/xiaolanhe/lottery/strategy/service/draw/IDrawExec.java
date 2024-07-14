@@ -10,5 +10,10 @@ import com.xiaolanhe.lottery.strategy.model.response.DrawResponse;
  * @date 2024/7/13 18:39
  */
 public interface IDrawExec {
+    /**
+     * 抽奖方法
+     * @param request 抽奖请求参数
+     * @return 抽奖结果
+     */
     DrawResponse doDrawExec(DrawRequest request);
 }
