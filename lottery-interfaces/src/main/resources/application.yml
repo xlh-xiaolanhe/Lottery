@@ -21,6 +21,6 @@ dubbo:
     address: multicast://224.5.6.7:1234
   protocol:
     name: dubbo
-    port: 20880
+    port: 20881
   scan:
     base-packages: com.xiaolanhe.lottery.rpc

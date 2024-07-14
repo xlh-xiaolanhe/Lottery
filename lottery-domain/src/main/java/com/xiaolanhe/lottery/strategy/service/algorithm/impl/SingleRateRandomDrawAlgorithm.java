@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Component("singleRateRandomDrawAlgorithm")
-public class SingleRateRandomDrawAlgorithm extends DefaultRateRandomDrawAlgorithm{
+public class SingleRateRandomDrawAlgorithm extends EntiretyRateRandomDrawAlgorithm {
     @Override
     public String randomDraw(Long strategyId, List<String> excludeAwardIds) {
         String[] rateTuple = rateTupleMap.get(strategyId);

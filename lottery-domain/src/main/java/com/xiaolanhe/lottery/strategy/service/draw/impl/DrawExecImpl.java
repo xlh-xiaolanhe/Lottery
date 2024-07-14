@@ -1,22 +1,14 @@
 package com.xiaolanhe.lottery.strategy.service.draw.impl;
 
-import com.xiaolanhe.lottery.infrastructure.po.Award;
-import com.xiaolanhe.lottery.infrastructure.po.Strategy;
-import com.xiaolanhe.lottery.infrastructure.po.StrategyDetail;
-import com.xiaolanhe.lottery.strategy.model.aggregates.StrategyRich;
-import com.xiaolanhe.lottery.strategy.model.request.DrawRequest;
-import com.xiaolanhe.lottery.strategy.model.response.DrawResponse;
-import com.xiaolanhe.lottery.strategy.repository.IStrategyRepository;
+import cn.hutool.json.JSONUtil;
 import com.xiaolanhe.lottery.strategy.service.algorithm.IDrawAlgorithm;
-import com.xiaolanhe.lottery.strategy.service.draw.DrawBase;
-import com.xiaolanhe.lottery.strategy.service.draw.IDrawExec;
+import com.xiaolanhe.lottery.strategy.service.draw.AbstractDrawBase;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,32 +18,29 @@ import java.util.List;
 
 @Service("drawExec")
 @Data
-public class DrawExecImpl extends DrawBase implements IDrawExec {
+public class DrawExecImpl extends AbstractDrawBase {
     private Logger logger = LoggerFactory.getLogger(DrawExecImpl.class);
 
-    @Resource
-    private IStrategyRepository strategyRepository;
     @Override
-    public DrawResponse doDrawExec(DrawRequest request) {
-        logger.info("执行策略抽奖开始，strategyId：{}", request.getStrategyId());
-        // 获取抽奖策略配置数据
-        StrategyRich strategyRich = strategyRepository.queryStrategyRich(request.getStrategyId());
-        Strategy strategy = strategyRich.getStrategy();
-        List<StrategyDetail> strategyDetailList = strategyRich.getStrategyDetailList();
+    protected List<String> queryExcludeAwardIds(Long strategyId) {
+        List<String> excludesIds = strategyRepository.queryNoStockAwardIds(strategyId);
+        logger.info("执行抽奖策略 strategyId：{}，无库存排除奖品列表ID集合 excludesIds：{}", strategyId, JSONUtil.toJsonStr(excludesIds));
+        return excludesIds;
+    }
 
-        // 校验和初始化数据
-        checkAndInitData(request.getStrategyId(), strategy.getStrategyMode(), strategyDetailList);
+    @Override
+    protected String drawAlgorithm(Long strategyId, IDrawAlgorithm drawAlgorithm, List<String> excludeAwardIds) {
+        // 进行抽奖
+        String awardId = drawAlgorithm.randomDraw(strategyId, excludeAwardIds);
 
-        // 根据策略方式进行抽奖
-        IDrawAlgorithm drawAlgorithm = drawAlgorithmMap.get(strategy.getStrategyMode());
-        String awardId = drawAlgorithm.randomDraw(request.getStrategyId(), new ArrayList<>());
+        if(!StringUtils.hasText(awardId)){
+            return null;
+        }
 
-        // 获取奖品信息
-        Award award = strategyRepository.queryAwardInfo(awardId);
+        // 扣减库存，暂时采用数据库行级锁的方式进行扣减库存，后续优化为 Redis 分布式锁扣减 decr/incr
+        boolean deductResult = strategyRepository.deductStock(strategyId, awardId);
 
-        logger.info("执行策略抽奖完成，中奖用户：{} 奖品ID：{} 奖品名称：{}", request.getUid(), awardId, award.getAwardName());
-
-        // 封装结果
-        return new DrawResponse(request.getUid(), request.getStrategyId(), awardId, award.getAwardName());
+        // 返回结果，库存扣减成功返回奖品ID，否则返回NULL 「在实际的业务场景中，如果中奖奖品库存为空，则会发送兜底奖品，比如各类券」
+        return deductResult ? awardId : null;
     }
 }

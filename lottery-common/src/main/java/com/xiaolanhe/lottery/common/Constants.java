@@ -32,4 +32,77 @@ public class Constants {
             return message;
         }
     }
+
+    /**
+      抽奖策略
+    */
+    public enum StrategyModeEnum {
+        /**
+         若抽中的奖品已经没有库存，抽奖结果展示为未中奖
+        */
+        SINGLE(1, "单项概率"),
+        /**
+         没有库存的奖品的概率均摊给剩下的奖品
+        */
+        ENTIRETY(2, "总体概率")
+        ;
+
+        private Integer code;
+        private String info;
+
+        StrategyModeEnum(Integer code, String info) {
+            this.code = code;
+            this.info = info;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getInfo() {
+            return info;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public void setInfo(String info) {
+            this.info = info;
+        }
+    }
+
+
+    /**
+        中奖状态：0未中奖、1已中奖、2兜底奖
+    */
+    public enum DrawResultEnum {
+        NO_PRIZE(0, "未中奖"),
+        SUCCESS(1, "已中奖"),
+        COVER(2, "兜底奖")
+        ;
+        private Integer code;
+        private String info;
+
+        DrawResultEnum(Integer code, String info) {
+            this.code = code;
+            this.info = info;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public void setCode(Integer code) {
+            this.code = code;
+        }
+
+        public String getInfo() {
+            return info;
+        }
+
+        public void setInfo(String info) {
+            this.info = info;
+        }
+    }
 }

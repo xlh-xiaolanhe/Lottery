@@ -1,5 +1,6 @@
 package com.xiaolanhe.lottery.strategy.service.draw;
 
+import com.xiaolanhe.lottery.common.Constants;
 import com.xiaolanhe.lottery.strategy.service.algorithm.IDrawAlgorithm;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** 抽奖配置类
  *@author: xiaolanhe
@@ -17,20 +19,17 @@ import java.util.Map;
 public class DrawConfig {
 
     @Resource
-    private IDrawAlgorithm defaultRateRandomDrawAlgorithm;
+    private IDrawAlgorithm entiretyRateRandomDrawAlgorithm;
 
     @Resource
     private IDrawAlgorithm singleRateRandomDrawAlgorithm;
 
-    protected static Map<Integer,  IDrawAlgorithm> drawAlgorithmMap = new HashMap<>();
+    protected static Map<Integer,  IDrawAlgorithm> drawAlgorithmMap = new ConcurrentHashMap<>();
 
-    public static void setDrawAlgorithmMap(Map<Integer, IDrawAlgorithm> drawAlgorithmMap) {
-        DrawConfig.drawAlgorithmMap = drawAlgorithmMap;
-    }
 
     @PostConstruct
     public void init(){
-        drawAlgorithmMap.put(1, defaultRateRandomDrawAlgorithm);
-        drawAlgorithmMap.put(2, singleRateRandomDrawAlgorithm);
+        drawAlgorithmMap.put(Constants.StrategyModeEnum.SINGLE.getCode(), singleRateRandomDrawAlgorithm);
+        drawAlgorithmMap.put(Constants.StrategyModeEnum.ENTIRETY.getCode(), entiretyRateRandomDrawAlgorithm);
     }
 }

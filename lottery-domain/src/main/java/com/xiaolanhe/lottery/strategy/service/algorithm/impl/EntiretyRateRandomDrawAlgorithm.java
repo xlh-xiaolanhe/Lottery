@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  *@createDate: 2024/7/13 18:53
  */
 
-@Component("defaultRateRandomDrawAlgorithm")
-public class DefaultRateRandomDrawAlgorithm extends BaseDrawAlgorithm {
+@Component("entiretyRateRandomDrawAlgorithm")
+public class EntiretyRateRandomDrawAlgorithm extends BaseDrawAlgorithm {
     @Override
     public String randomDraw(Long strategyId, List<String> excludeAwardIds) {
         List<AwardRateInfo> avilavableList = Optional.ofNullable(awardRateInfoMap.get(strategyId)).orElse(new ArrayList<>()).stream()

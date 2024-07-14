@@ -1,5 +1,6 @@
 package com.xiaolanhe.lottery.strategy.model.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  */
 
 @Data
+@AllArgsConstructor
 public class DrawRequest {
     private String uid;
     private Long strategyId;
