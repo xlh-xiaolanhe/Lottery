@@ -1,8 +1,8 @@
 package com.xiaolanhe.lottery.strategy.repository;
 
-import com.xiaolanhe.lottery.infrastructure.po.Award;
-import com.xiaolanhe.lottery.infrastructure.po.StrategyDetail;
+
 import com.xiaolanhe.lottery.strategy.model.aggregates.StrategyRich;
+import com.xiaolanhe.lottery.strategy.model.vo.AwardBriefVO;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public interface IStrategyRepository {
     StrategyRich queryStrategyRich(Long strategyId);
 
-    Award queryAwardInfo(String awardId);
+    AwardBriefVO queryAwardInfo(String awardId);
 
     List<String> queryNoStockAwardIds(Long strategyId);
 

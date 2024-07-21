@@ -1,10 +1,8 @@
 package com.xiaolanhe.lottery.strategy.model.response;
 
 import com.xiaolanhe.lottery.common.Constants;
-import com.xiaolanhe.lottery.strategy.model.vo.AwardInfo;
-import lombok.AllArgsConstructor;
+import com.xiaolanhe.lottery.strategy.model.vo.AwardBriefVO;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  *@author: xiaolanhe
@@ -18,7 +16,7 @@ public class DrawResponse {
 
     private Integer drawState = Constants.DrawResultEnum.NO_PRIZE.getCode();
 
-    private AwardInfo awardInfo;
+    private AwardBriefVO awardInfo;
 
     public DrawResponse(String uid, Long strategyId, Integer drawState) {
         this.uid = uid;
@@ -26,7 +24,7 @@ public class DrawResponse {
         this.drawState = drawState;
     }
 
-    public DrawResponse(String uid, Long strategyId, Integer drawState, AwardInfo awardInfo) {
+    public DrawResponse(String uid, Long strategyId, Integer drawState, AwardBriefVO awardInfo) {
         this.uid = uid;
         this.strategyId = strategyId;
         this.drawState = drawState;

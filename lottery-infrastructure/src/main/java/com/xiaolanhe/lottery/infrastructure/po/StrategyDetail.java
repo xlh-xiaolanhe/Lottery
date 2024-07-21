@@ -22,6 +22,8 @@ public class StrategyDetail {
     // 奖品数量
     private String awardCount;
 
+    private String awardName;
+
     /**
      * 奖品剩余库存
      */

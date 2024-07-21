@@ -1,7 +1,8 @@
 package com.xiaolanhe.lottery.strategy.model.aggregates;
 
-import com.xiaolanhe.lottery.infrastructure.po.Strategy;
-import com.xiaolanhe.lottery.infrastructure.po.StrategyDetail;
+
+import com.xiaolanhe.lottery.strategy.model.vo.StrategyBriefVO;
+import com.xiaolanhe.lottery.strategy.model.vo.StrategyDetailBriefVO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 public class StrategyRich {
     private Long strategyId;
-    private Strategy strategy;
-    private List<StrategyDetail> strategyDetailList;
+    private StrategyBriefVO strategy;
+    private List<StrategyDetailBriefVO> strategyDetailList;
 }

@@ -3,6 +3,8 @@ package com.xiaolanhe.lottery.infrastructure.dao;
 import com.xiaolanhe.lottery.infrastructure.po.Award;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author xiaolanhe
  * @version V1.0
@@ -13,4 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface IAwardDao {
     Award queryAwardInfo(String awardId);
+
+    void insertList(List<Award> req);
+
 }

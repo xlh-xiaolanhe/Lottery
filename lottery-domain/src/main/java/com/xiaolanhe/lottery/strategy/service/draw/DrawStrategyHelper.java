@@ -1,7 +1,8 @@
 package com.xiaolanhe.lottery.strategy.service.draw;
 
-import com.xiaolanhe.lottery.infrastructure.po.Award;
+
 import com.xiaolanhe.lottery.strategy.model.aggregates.StrategyRich;
+import com.xiaolanhe.lottery.strategy.model.vo.AwardBriefVO;
 import com.xiaolanhe.lottery.strategy.repository.IStrategyRepository;
 
 import javax.annotation.Resource;
@@ -25,7 +26,7 @@ public class DrawStrategyHelper extends DrawConfig{
         return strategyRepository.queryStrategyRich(strategyID);
     }
 
-    protected Award queryAwardInfo(String awardId) {
+    protected AwardBriefVO queryAwardInfo(String awardId) {
         return strategyRepository.queryAwardInfo(awardId);
     }
 }

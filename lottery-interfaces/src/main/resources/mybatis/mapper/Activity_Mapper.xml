@@ -33,4 +33,10 @@
         WHERE activity_id = #{activityId}
     </select>
 
+    <update id="alterState" parameterType="com.xiaolanhe.lottery.activity.model.vo.AlterStateVO">
+        UPDATE activity
+        SET state = #{curState}
+        WHERE activity_id = #{activityId} AND state = #{prevState}
+    </update>
+
 </mapper>

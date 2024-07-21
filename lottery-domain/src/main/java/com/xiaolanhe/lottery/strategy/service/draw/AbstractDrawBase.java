@@ -2,14 +2,13 @@ package com.xiaolanhe.lottery.strategy.service.draw;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.xiaolanhe.lottery.common.Constants;
-import com.xiaolanhe.lottery.infrastructure.po.Award;
-import com.xiaolanhe.lottery.infrastructure.po.Strategy;
-import com.xiaolanhe.lottery.infrastructure.po.StrategyDetail;
 import com.xiaolanhe.lottery.strategy.model.aggregates.StrategyRich;
 import com.xiaolanhe.lottery.strategy.model.request.DrawRequest;
 import com.xiaolanhe.lottery.strategy.model.response.DrawResponse;
-import com.xiaolanhe.lottery.strategy.model.vo.AwardInfo;
+import com.xiaolanhe.lottery.strategy.model.vo.AwardBriefVO;
 import com.xiaolanhe.lottery.strategy.model.vo.AwardRateInfo;
+import com.xiaolanhe.lottery.strategy.model.vo.StrategyBriefVO;
+import com.xiaolanhe.lottery.strategy.model.vo.StrategyDetailBriefVO;
 import com.xiaolanhe.lottery.strategy.service.algorithm.IDrawAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ public abstract class AbstractDrawBase extends DrawStrategyHelper implements IDr
     public DrawResponse doDrawExec(DrawRequest request) {
         // 1. 获取抽奖策略等信息
         StrategyRich strategyRich = queryStrategyRich(request.getStrategyId());
-        Strategy strategy = strategyRich.getStrategy();
+        StrategyBriefVO strategy = strategyRich.getStrategy();
 
         // 2、校验抽奖策略并初始化奖品中奖概率到内存
         checkAndInitRateData(request.getStrategyId(), strategy.getStrategyMode(), strategyRich.getStrategyDetailList());
@@ -69,7 +68,7 @@ public abstract class AbstractDrawBase extends DrawStrategyHelper implements IDr
      * @param strategyMode       抽奖策略模式
      * @param strategyDetailList 抽奖策略详情
      */
-    protected void checkAndInitRateData(Long strategyId, Integer strategyMode, List<StrategyDetail> strategyDetailList){
+    protected void checkAndInitRateData(Long strategyId, Integer strategyMode, List<StrategyDetailBriefVO> strategyDetailList){
 
         // 非单项概率，每个奖品的概率都会受其他奖品种类库存的影响，所以每必要缓存
         if(!Constants.StrategyModeEnum.SINGLE.getCode().equals(strategyMode)){
@@ -104,8 +103,8 @@ public abstract class AbstractDrawBase extends DrawStrategyHelper implements IDr
             logger.info("执行策略抽奖完成【未中奖】，用户：{} 策略ID：{}", uid, strategyId);
             return new DrawResponse(uid, strategyId, Constants.DrawResultEnum.NO_PRIZE.getCode());
         }
-        Award award = queryAwardInfo(awardId);
-        AwardInfo awardInfo = new AwardInfo(award.getAwardId(), award.getAwardType(), award.getAwardName(), award.getAwardContent());
+        AwardBriefVO award = queryAwardInfo(awardId);
+        AwardBriefVO awardInfo = new AwardBriefVO(award.getAwardId(), award.getAwardType(), award.getAwardName(), award.getAwardContent());
         logger.info("执行策略抽奖完成【中奖】，用户：{} 策略ID：{} 奖品ID：{} 奖品名称：{}", uid, strategyId, awardId, award.getAwardName());
         return new DrawResponse(uid, strategyId, Constants.DrawResultEnum.SUCCESS.getCode(), awardInfo);
     }

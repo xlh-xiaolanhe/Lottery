@@ -1,5 +1,6 @@
 package com.xiaolanhe.lottery.infrastructure.dao;
 
+import com.xiaolanhe.lottery.activity.model.vo.AlterStateVO;
 import com.xiaolanhe.lottery.infrastructure.po.Activity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,4 +14,6 @@ public interface IActivityDao {
     void insert(Activity activity);
 
     Activity queryActivityById(Long activityId);
+
+    int alterState(AlterStateVO alterStateVO);
 }

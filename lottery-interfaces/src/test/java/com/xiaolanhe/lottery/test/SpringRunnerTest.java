@@ -15,7 +15,7 @@ import com.xiaolanhe.lottery.infrastructure.dao.IActivityDao;
 import com.xiaolanhe.lottery.infrastructure.po.Activity;
 import com.xiaolanhe.lottery.strategy.model.request.DrawRequest;
 import com.xiaolanhe.lottery.strategy.model.response.DrawResponse;
-import com.xiaolanhe.lottery.strategy.model.vo.AwardInfo;
+import com.xiaolanhe.lottery.strategy.model.vo.AwardBriefVO;
 import com.xiaolanhe.lottery.strategy.service.draw.IDrawExec;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -85,7 +85,7 @@ public class SpringRunnerTest {
             return;
         }
         // 封装发奖参数，orderId：2109313442431 为模拟ID，需要在用户参与领奖活动时生成
-        AwardInfo drawAwardInfo = response.getAwardInfo();
+        AwardBriefVO drawAwardInfo = response.getAwardInfo();
         GoodsRequest goodsReq = new GoodsRequest(response.getUid(), "2109313442431", drawAwardInfo.getAwardId(), drawAwardInfo.getAwardName(), drawAwardInfo.getAwardContent());
 
         // 根据 awardType 从抽奖工厂中获取对应的发奖服务

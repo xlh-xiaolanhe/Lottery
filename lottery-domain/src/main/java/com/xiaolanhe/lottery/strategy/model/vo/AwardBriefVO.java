@@ -1,7 +1,7 @@
 package com.xiaolanhe.lottery.strategy.model.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /** 中奖结果封装
  *@author: xiaolanhe
@@ -9,7 +9,8 @@ import lombok.Data;
  */
 
 @Data
-public class AwardInfo {
+@NoArgsConstructor
+public class AwardBriefVO {
     /**
      * 奖品ID
      */
@@ -30,12 +31,12 @@ public class AwardInfo {
      */
     private String awardContent;
 
-    public AwardInfo(String awardId, String awardName) {
+    public AwardBriefVO(String awardId, String awardName) {
         this.awardId = awardId;
         this.awardName = awardName;
     }
 
-    public AwardInfo(String awardId, Integer awardType, String awardName, String awardContent) {
+    public AwardBriefVO(String awardId, Integer awardType, String awardName, String awardContent) {
         this.awardId = awardId;
         this.awardType = awardType;
         this.awardName = awardName;
