@@ -169,7 +169,7 @@ public class Constants {
        }
    }
 
-   public enum ActivityStateEnum{
+    public enum ActivityStateEnum{
        /** 1：编辑 */
        EDIT(1, "编辑"),
        /** 2：提审 */
@@ -211,4 +211,19 @@ public class Constants {
            this.info = info;
        }
    }
+
+    public enum IdsEnum {
+        /**
+         * 雪花算法
+         */
+         SnowFlake,
+        /**
+         * 日期算法  只适合id数比较小的场景
+         */
+         ShortCode,
+        /**
+         * 数字随机算法
+         */
+         RandomNumeric
+    }
 }
